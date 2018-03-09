@@ -1,0 +1,36 @@
+version: '3'
+services:
+ db:
+  image: mysql:5.7
+  ports:
+   - "3306"
+  restart: always
+  environment:
+   MYSQL_ROOT_PASSWORD: somewordpress
+   MYSQL_DATABASE: wordpress
+   MYSQL_USER: wordpress
+   MYSQL_PASSWORD: wordpress
+  networks:
+   - webnet  
+ wordpress:
+  depends_on:
+   - db
+  build:
+   context: wordpress
+  volumes:
+   - /etc/letsencrypt/live/www.template.s360.is/fullchain.pem:/etc/ssl/certs/ssl-cert-snakeoil.pem
+   - /etc/letsencrypt/live/www.template.s360.is/privkey.pem:/etc/ssl/private/ssl-cert-snakeoil.key
+  ports:
+   - "80"
+   - "443:443"
+  restart: always
+  environment:
+   WORDPRESS_DB_HOST: db:3306
+   WORDPRESS_DB_USER: wordpress
+   WORDPRESS_DB_PASSWORD: wordpress
+  networks:
+   - webnet
+
+networks:
+  webnet:
+
