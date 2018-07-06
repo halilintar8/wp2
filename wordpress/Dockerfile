@@ -1,13 +1,15 @@
 FROM wordpress:latest
 
+#ENV GITHUB_KEY=${GITHUB_KEY}
+
 RUN apt-get update && \
 	apt-get install -y --no-install-recommends ssl-cert && \
 	apt-get install sudo && \
-	apt-get install -y git-core 
+	apt-get install -y git-core && \
 	#cd /var/www/html/ && \
 	#git clone https://34d694e3f70b078418d4613de344d68375f6f678:x-oauth-basic@github.com/s360/WP-Starter.git base2 && \
-	#rm -r /var/lib/apt/lists/* && \
-	#a2enmod ssl
+	rm -rf /var/lib/apt/lists/* && \
+	a2enmod ssl
 	#a2enmod ssl && \
 	#a2ensite default-ssl
 
@@ -40,9 +42,11 @@ RUN mkdir -p /var/www/bintang_theme
 #RUN su -u www-data mkdir -p /var/www/html/wp-content/themes/bintang_theme
 #RUN touch /root/www/html/base/tes3.txt
 #RUN git clone https://github.com/halilintar8/wp2.git /var/www/html2/
-RUN git clone https://34d694e3f70b078418d4613de344d68375f6f678:x-oauth-basic@github.com/roots/sage.git /var/www/bintang_theme/sage
-RUN git clone https://34d694e3f70b078418d4613de344d68375f6f678:x-oauth-basic@github.com/s360/WP-Starter.git /var/www/bintang_theme/starter
-RUN git clone https://34d694e3f70b078418d4613de344d68375f6f678:x-oauth-basic@github.com/s360/contender.git /var/www/bintang_theme/theme
+#RUN echo ${GITHUB_KEY}
+RUN git clone https://${GITHUB_KEY}:x-oauth-basic@github.com/roots/sage.git /var/www/bintang_theme/sage
+RUN git clone https://${GITHUB_KEY}:x-oauth-basic@github.com/s360/WP-Starter.git /var/www/bintang_theme/starter
+RUN git clone https://${GITHUB_KEY}:x-oauth-basic@github.com/s360/contender.git /var/www/bintang_theme/theme
+
 #RUN chown -R root.root /var/www/
 #RUN chown -R www-data.www-data /var/www/bintang_theme/
 RUN cp -r /var/www/bintang_theme/starter/Themes/* /var/www/bintang_theme/sage/
@@ -64,15 +68,15 @@ RUN mkdir -p /var/www/html/tes5
 #RUN git clone https://34d694e3f70b078418d4613de344d68375f6f678:x-oauth-basic@github.com/s360/WP-Starter.git base2
 
 # Add composer
-#RUN curl -sS https://getcomposer.org/installer | php && \
-#mv composer.phar /usr/local/bin/composer && \
-#composer self-update
+RUN curl -sS https://getcomposer.org/installer | php && \
+mv composer.phar /usr/local/bin/composer && \
+composer self-update
 #composer self-update && \
 
 # Add WP-CLI 
-#RUN curl -o /bin/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-#COPY wp-su.sh /bin/wp
-#RUN chmod +x /bin/wp-cli.phar /bin/wp
+RUN curl -o /bin/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+COPY wp-su.sh /bin/wp
+RUN chmod +x /bin/wp-cli.phar /bin/wp
 
 EXPOSE 80
 EXPOSE 443
