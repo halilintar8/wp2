@@ -7,7 +7,6 @@ RUN apt-get update && \
 	apt-get install sudo && \
 	apt-get install -y git-core && \
 	#cd /var/www/html/ && \
-	#git clone https://34d694e3f70b078418d4613de344d68375f6f678:x-oauth-basic@github.com/s360/WP-Starter.git base2 && \
 	rm -rf /var/lib/apt/lists/* && \
 	a2enmod ssl
 	#a2enmod ssl && \
@@ -32,7 +31,6 @@ RUN apt-get update && \
 
 # Clone the conf files into the docker container
 #RUN git clone git@bitbucket.org:User/repo.git
-#RUN git clone https://34d694e3f70b078418d4613de344d68375f6f678:x-oauth-basic@github.com/s360/WP-Starter.git base
 #RUN usermod -aG www-data root
 RUN mkdir -p /var/www/bintang_theme
 #ADD bintang_theme /var/www/html/wp-content/themes/bintang_theme
@@ -43,6 +41,7 @@ RUN mkdir -p /var/www/bintang_theme
 #RUN touch /root/www/html/base/tes3.txt
 #RUN git clone https://github.com/halilintar8/wp2.git /var/www/html2/
 #RUN echo ${GITHUB_KEY}
+
 RUN git clone https://${GITHUB_KEY}:x-oauth-basic@github.com/roots/sage.git /var/www/bintang_theme/sage
 RUN git clone https://${GITHUB_KEY}:x-oauth-basic@github.com/s360/WP-Starter.git /var/www/bintang_theme/starter
 RUN git clone https://${GITHUB_KEY}:x-oauth-basic@github.com/s360/contender.git /var/www/bintang_theme/theme
@@ -65,7 +64,6 @@ RUN mkdir -p /var/www/html/tes5
 #ADD ~/.ssh/known_hosts
 #RUN ssh-keyscan github.com >> ~/.ssh/known_hosts
 #RUN cd /var/www/html/
-#RUN git clone https://34d694e3f70b078418d4613de344d68375f6f678:x-oauth-basic@github.com/s360/WP-Starter.git base2
 
 # Add composer
 RUN curl -sS https://getcomposer.org/installer | php && \
